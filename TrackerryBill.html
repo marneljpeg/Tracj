@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BUDGETA</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef3f5;--card:#fff;--ink:#12303a;--mute:#5f7a84;--line:#d8e3e7;--acc:#3b4cca;--on:#fff;--inc:#16906a;--exp:#cf3f58;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1c21;--card:#172830;--ink:#e6f0f3;--mute:#8fa8b1;--line:#28414b;--acc:#7c8bff;--on:#0f1c21;--inc:#3fd0a0;--exp:#ff7a90}}
+:root[data-theme="dark"]{--bg:#0f1c21;--card:#172830;--ink:#e6f0f3;--mute:#8fa8b1;--line:#28414b;--acc:#7c8bff;--on:#0f1c21;--inc:#3fd0a0;--exp:#ff7a90}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif}
+.hide{display:none!important}
+h1{font-size:22px;font-weight:800;margin:0;letter-spacing:-.02em}
+h2{font-size:18px;font-weight:600;margin:0 0 10px}
+input,select,button{font:inherit;color:inherit}
+input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+label{font-size:13px;color:var(--mute);display:block;margin-bottom:3px}
+.btn{background:var(--acc);color:var(--on);border:0;border-radius:8px;padding:10px 16px;font-weight:600;cursor:pointer}
+.ghost{background:none;border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+#lock{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+#lock .card{width:100%;max-width:360px;text-align:center}
+#lock input{text-align:center;font-size:24px;letter-spacing:.4em;margin-bottom:10px}
+.err{color:var(--exp);min-height:22px;font-size:14px}
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 16px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top h1{flex:0 0 auto}
+.nav{display:flex;gap:4px;overflow-x:auto;flex:1;scrollbar-width:none}
+.nav button{border:0;background:none;padding:8px 12px;border-radius:8px;cursor:pointer;white-space:nowrap;font-weight:600;color:var(--mute)}
+.nav button[aria-current="page"]{background:var(--acc);color:var(--on)}
+#out{margin-left:auto}
+@media (max-width:640px){.nav{order:3;flex:0 0 100%}}
+main{max-width:1000px;margin:0 auto;padding:18px 16px 50px}
+.pil{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+@media (max-width:760px){.pil{grid-template-columns:repeat(2,1fr)}.pil .p:last-child{grid-column:1/-1}}
+.p{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;border-top:4px solid var(--c)}
+.p small{color:var(--mute)}.p b{display:block;font-size:19px;letter-spacing:-.02em;overflow-wrap:anywhere}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.g2{grid-template-columns:1fr}}
+.ch{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:none;padding:6px 10px;cursor:pointer;font-size:14px}
+.seg button[aria-pressed="true"]{background:var(--acc);color:var(--on)}
+.big{font-size:26px;font-weight:800;letter-spacing:-.02em}
+svg.c{width:100%;height:150px;display:block;margin:8px 0 4px}
+.ax{display:flex;justify-content:space-between;font-size:12px;color:var(--mute)}
+.up{color:var(--inc)}.dn{color:var(--exp)}
+.fr{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:end}
+@media (max-width:640px){.fr{grid-template-columns:1fr 1fr}}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
+th,td{padding:9px 8px;text-align:left;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:600;background:var(--bg)}
+td.n,th.n{text-align:right;white-space:nowrap}
+.lk{background:none;border:0;color:var(--acc);text-decoration:underline;cursor:pointer;padding:0;white-space:nowrap}
+.x{background:none;border:0;color:var(--mute);cursor:pointer;font-size:18px}
+.sm{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--mute);margin-bottom:8px}
+.sm b{color:var(--ink)}
+.pb{height:8px;background:var(--line);border-radius:5px;overflow:hidden;min-width:70px}
+.pb i{display:block;height:100%;background:var(--acc)}
+td input{padding:6px 8px;min-width:90px}
+.sec h2{margin-top:4px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:520px}
+@media (max-width:520px){.f2{grid-template-columns:1fr}}
+.ok{color:var(--inc);font-size:14px;margin-left:8px}
+</style>
+</head>
+<body>
+
+<div id="lock">
+  <div class="card">
+    <h1>BUDGETA</h1>
+    <h2 id="lt" style="margin-top:14px"></h2>
+    <p id="ls" style="color:var(--mute);margin:0 0 12px;font-size:14px"></p>
+    <form id="lf" autocomplete="off">
+      <input id="p1" type="password" inputmode="numeric" maxlength="6" placeholder="••••" aria-label="PIN" autocomplete="new-password">
+      <input id="p2" type="password" inputmode="numeric" maxlength="6" placeholder="Confirm" aria-label="Confirm PIN" autocomplete="new-password">
+      <div class="err" id="le" role="alert"></div>
+      <button class="btn" style="width:100%" id="lb">Continue</button>
+    </form>
+    <p style="margin:14px 0 0"><button class="lk" id="fg" type="button" style="font-size:13px">Forgot PIN?</button></p>
+    <p style="margin:8px 0 0"><button class="lk" id="ra" type="button" style="font-size:13px;color:var(--exp)">Remove account</button></p>
+    <div id="fp" class="hide" style="margin-top:10px;text-align:left;font-size:14px;border-top:1px solid var(--line);padding-top:12px">
+      <p style="margin:0 0 8px;color:var(--mute)">Choose how to reset your PIN:</p>
+      <button class="btn" id="fk" type="button" style="width:100%;margin-bottom:8px">Set a new PIN, keep my data</button>
+      <button class="ghost" id="fe" type="button" style="width:100%;margin-bottom:8px">Erase all data and start fresh</button>
+      <button class="lk" id="fc" type="button">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="app" class="hide">
+  <div class="top">
+    <h1>BUDGETA</h1>
+    <nav class="nav" aria-label="Main">
+      <button data-v="dash">Dashboard</button><button data-v="tx">Transactions</button><button data-v="goals">Goals</button><button data-v="grow">Growth</button><button data-v="set">Settings</button>
+    </nav>
+    <button class="ghost" id="out">Log out</button>
+  </div>
+  <div id="remBanner" class="hide" style="background:var(--acc);color:var(--on);padding:10px 16px;text-align:center;font-size:14px;font-weight:600">📝 Reminder: log today's transactions to keep Budgeta up to date.</div>
+  <main>
+    <section id="dash" class="sec"></section>
+
+    <section id="tx" class="sec hide">
+      <div class="card">
+        <h2>Add transaction</h2>
+        <form id="tf" class="fr">
+          <div><label for="tt">Type</label><select id="tt"></select></div>
+          <div><label for="ta">Amount</label><input id="ta" type="number" min="0.01" step="0.01" inputmode="decimal" required></div>
+          <div><label for="td">Date</label><input id="td" type="date" required></div>
+          <div><label for="tn">Description</label><input id="tn" maxlength="40" placeholder="Optional"></div>
+          <button class="btn" style="grid-column:1/-1">Add transaction</button>
+        </form>
+      </div>
+      <div class="card">
+        <div class="ch" style="margin-bottom:10px">
+          <h2 style="margin:0">Transaction History</h2>
+          <div><label for="tm" style="display:inline;margin-right:6px">Month</label><select id="tm" style="width:auto;display:inline-block"></select></div>
+        </div>
+        <div id="st"></div>
+      </div>
+    </section>
+
+    <section id="goals" class="sec hide"></section>
+    <section id="grow" class="sec hide"></section>
+
+    <section id="set" class="sec hide">
+      <div class="card">
+        <h2>Profile</h2>
+        <form id="pf" class="f2">
+          <div><label for="nn">Nickname</label><input id="nn" maxlength="20"></div>
+          <div><button class="btn">Save profile</button><span class="ok" id="pok"></span></div>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Appearance</h2>
+        <div class="seg" style="max-width:320px">
+          <button data-th="light" aria-pressed="false" style="flex:1;padding:10px">Light mode</button>
+          <button data-th="dark" aria-pressed="false" style="flex:1;padding:10px">Dark mode</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Currency</h2>
+        <p style="color:var(--mute);margin:0 0 10px;font-size:14px">Choose the currency symbol used across Budgeta.</p>
+        <label for="curSel">Preferred currency</label>
+        <select id="curSel" style="max-width:240px">
+          <option value="₱">₱ Philippine Peso</option>
+          <option value="$">$ US Dollar</option>
+          <option value="€">€ Euro</option>
+          <option value="£">£ British Pound</option>
+          <option value="¥">¥ Japanese Yen</option>
+        </select>
+      </div>
+      <div class="card">
+        <h2>Change PIN</h2>
+        <form id="cpf" class="f2">
+          <div><label for="cp1">Current PIN</label><input id="cp1" type="password" inputmode="numeric" maxlength="6" autocomplete="off"></div>
+          <div><label for="cp2">New PIN</label><input id="cp2" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password"></div>
+          <div><label for="cp3">Confirm new PIN</label><input id="cp3" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password"></div>
+          <div style="display:flex;align-items:center;gap:8px"><button class="btn" type="submit">Update PIN</button><span class="ok" id="cpok"></span></div>
+        </form>
+        <div class="err" id="cpe" role="alert"></div>
+      </div>
+      <div class="card">
+        <h2>Save Reminders</h2>
+        <p style="color:var(--mute);margin:0 0 10px;font-size:14px">Turn on a banner in the app reminding you to log your transactions.</p>
+        <label style="display:flex;align-items:center;gap:8px;font-size:14px"><input type="checkbox" id="remOn" style="width:auto">Show reminder banner</label>
+      </div>
+      <div class="card">
+        <h2>Tracker Guide</h2>
+        <p style="color:var(--mute);margin:0 0 10px;font-size:14px">Need a refresher on how Budgeta works?</p>
+        <button class="ghost" id="stGuide" type="button">Open guide</button>
+      </div>
+      <div class="card">
+        <h2>What is Budgeta?</h2>
+        <p style="color:var(--mute);margin:0;font-size:14px">Budgeta is a simple personal finance tracker built around five pillars — Income, Savings, Spending, Investment, and Protection — so you can see at a glance where your money goes and track progress toward your goals. All your data stays on this device.</p>
+      </div>
+      <div class="card">
+        <h2>Data</h2>
+        <p style="color:var(--mute);margin:0 0 10px;font-size:14px">Clear all transactions and goals and start again from zero. Your PIN and profile stay. Remove account deletes the PIN and everything else.</p>
+        <button class="ghost" id="rz">Reset data to zero</button> <button class="ghost" id="rs" style="color:var(--exp)">Remove account</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="guide" class="hide" style="position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:20">
+  <div class="card" style="max-width:480px;max-height:80vh;overflow:auto">
+    <div class="ch" style="margin-bottom:10px"><h2 style="margin:0">Tracker Guide</h2><button class="x" id="gClose" type="button" aria-label="Close guide">×</button></div>
+    <ol style="padding-left:18px;font-size:14px;line-height:1.7;margin:0">
+      <li><b>Dashboard</b> — see your 5-pillar totals and breakdown pie chart. Use the month dropdown to check one month, or All months for the grand total.</li>
+      <li><b>Transactions</b> — log income, savings, spending, investment, or protection entries, then filter your history by month.</li>
+      <li><b>Goals</b> — set savings targets and track progress toward each one.</li>
+      <li><b>Growth</b> — watch your overall balance trend over time.</li>
+      <li><b>Settings</b> — update your nickname, currency, appearance, PIN, and reminders.</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+const $=i=>document.getElementById(i);
+const T=["income","savings","spending","investment","protection"];
+const COL={income:"#16906a",savings:"#3b4cca",spending:"#cf3f58",investment:"#d9880f",protection:"#7a4fc4"};
+const cap=s=>s[0].toUpperCase()+s.slice(1);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fm=(n,c)=>{c=c||S.currency||"₱";return (n<0?"−":"")+c+Math.abs(n).toLocaleString("en-PH",{minimumFractionDigits:2,maximumFractionDigits:2})};
+const ds=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const ago=n=>{const d=new Date();d.setDate(d.getDate()-n);return ds(d)};
+let S={pin:"",tx:[],goals:[],name:"",nick:"",theme:"",currency:"₱",reminderOn:false},R={},DM="all",TM="all",adding=false,view="dash",authed=false;
+const save=()=>{try{localStorage.setItem("budgeta2",JSON.stringify(S))}catch(e){}};
+try{const r=localStorage.getItem("budgeta2");if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+const theme=t=>{if(t)document.documentElement.setAttribute("data-theme",t)};theme(S.theme);
+const uid=()=>Date.now()+Math.random();
+function monthLabel(ym){const[y,m]=ym.split("-").map(Number);return new Date(y,m-1,1).toLocaleString("en",{month:"long",year:"numeric"})}
+function monthsList(){return Array.from(new Set(S.tx.map(t=>t.date.slice(0,7)))).sort().reverse().map(ym=>({ym,label:monthLabel(ym)}))}
+
+/* ---- PIN ---- */
+async function hp(p){try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("budgeta:"+p));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){return "x"+btoa("budgeta:"+p)}}
+function lockUI(){
+  authed=false;$("app").classList.add("hide");$("lock").classList.remove("hide");
+  const has=!!S.pin;$("lt").textContent=has?"Sign in":"Create a PIN";
+  $("ls").textContent=has?"Unlock BUDGETA to continue.":"Choose 4 to 6 digits. You'll use it each time you sign in.";
+  $("p2").classList.toggle("hide",has);$("lb").textContent=has?"Sign in":"Create PIN";$("fg").parentElement.classList.toggle("hide",!has);$("ra").parentElement.classList.toggle("hide",!has);
+  $("p1").value="";$("p2").value="";$("le").textContent="";$("fp").classList.add("hide");$("fe").textContent="Erase all data and start fresh";$("fe").dataset.arm="";$("p1").focus();
+}
+$("lf").onsubmit=async e=>{
+  e.preventDefault();const p=$("p1").value;
+  if(!/^\d{4,6}$/.test(p)){$("le").textContent="PIN must be 4 to 6 digits.";return}
+  const h=await hp(p);
+  if(!S.pin){
+    if($("p2").value!==p){$("le").textContent="PINs don't match. Try again.";return}
+    S.pin=h;save();
+  }else if(S.pin!==h){$("le").textContent="Wrong PIN. Try again.";$("p1").value="";return}
+  authed=true;$("lock").classList.add("hide");$("app").classList.remove("hide");go("dash");
+};
+$("fg").onclick=()=>$("fp").classList.toggle("hide");
+$("fc").onclick=()=>{$("fp").classList.add("hide");$("fe").textContent="Erase all data and start fresh";$("fe").dataset.arm=""};
+function armBtn(b,label,fn,msg){b.onclick=()=>{if(!b.dataset.arm){b.dataset.arm="1";b.textContent=msg||"Tap again to remove account and all data";setTimeout(()=>{b.dataset.arm="";b.textContent=label},4000);return}b.dataset.arm="";b.textContent=label;fn()}}
+function removeAcct(){try{localStorage.removeItem("budgeta2")}catch(e){}S={pin:"",tx:[],goals:[],name:"",nick:"",theme:"",currency:"₱",reminderOn:false};R={};DM="all";TM="all";adding=false;lockUI()}
+armBtn($("ra"),"Remove account",removeAcct);armBtn($("rs"),"Remove account",removeAcct);
+$("fk").onclick=()=>{S.pin="";save();lockUI()};
+$("fe").onclick=()=>{const b=$("fe");
+  if(!b.dataset.arm){b.dataset.arm="1";b.textContent="Tap again to erase everything";return}
+  try{localStorage.removeItem("budgeta2")}catch(e){}
+  S={pin:"",tx:[],goals:[],name:"",nick:"",theme:""};b.dataset.arm="";lockUI()};
+$("out").onclick=lockUI;
+/* ---- Navigation ---- */
+function go(v){view=v;["dash","tx","goals","grow","set"].forEach(x=>$(x).classList.toggle("hide",x!==v));
+  document.querySelectorAll(".nav button").forEach(b=>b.toggleAttribute("aria-current",b.dataset.v===v)||b.removeAttribute("aria-current"));
+  document.querySelectorAll(".nav button").forEach(b=>{if(b.dataset.v===v)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
+  if(v==="set"){$("nn").value=S.nick;$("curSel").value=S.currency||"₱";$("remOn").checked=!!S.reminderOn;setTh()}draw();window.scrollTo(0,0)}
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>go(b.dataset.v));
+
+/* ---- Charts ---- */
+const BTC=(()=>{let s=7,p=58000;const r=()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};return Array.from({length:365},()=>p=Math.round(p*(1+(r()-.47)*.045)))})();
+function buckets(r){
+  if(r==="y")return Array.from({length:12},(_,i)=>{const k=11-i,n=new Date();let d=new Date(n.getFullYear(),n.getMonth()-k+1,0);if(!k)d=n;return{end:ds(d),lab:d.toLocaleString("en",{month:"short"}),ago:k*30}});
+  const n=r==="w"?7:30;return Array.from({length:n},(_,i)=>{const a=n-1-i;return{end:ago(a),lab:ago(a).slice(5),ago:a}});
+}
+const net=end=>S.tx.reduce((s,t)=>t.date<=end?s+(t.type==="income"?t.amt:(t.type==="spending"||t.type==="protection")?-t.amt:0):s,0);
+function chart(id,title,kind){
+  const r=R[id]||"m",b=buckets(r),v=b.map(x=>kind==="b"?BTC[364-x.ago]:net(x.end)),cur=kind==="b"?"$":(S.currency||"₱");
+  const mn=Math.min(...v),mx=Math.max(...v),sp=(mx-mn)||1;
+  const pts=v.map((y,i)=>[(i/(v.length-1))*300,100-((y-mn)/sp)*88-6]);
+  const line=pts.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" ");
+  const ch=v[0]?((v[v.length-1]-v[0])/Math.abs(v[0])*100):0,up=ch>=0;
+  const c=kind==="b"?"#d9880f":"var(--acc)";
+  return `<div class="card"><div class="ch"><div><h2 style="margin:0">${title}</h2><div class="big">${fm(v[v.length-1],cur)}</div><span class="${up?"up":"dn"}">${up?"▲":"▼"} ${Math.abs(ch).toFixed(1)}%</span></div>
+  <div class="seg">${[["m","Monthly"],["y","Yearly"]].map(x=>`<button data-c="${id}" data-r="${x[0]}" aria-pressed="${r===x[0]}">${x[1]}</button>`).join("")}</div></div>
+  <svg class="c" viewBox="0 0 300 100" preserveAspectRatio="none" role="img" aria-label="${title} chart"><path d="${line} L300 100 L0 100Z" fill="${c}" opacity=".12"/><path d="${line}" fill="none" stroke="${c}" stroke-width="2.5" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>
+  <div class="ax"><span>${b[0].lab}</span><span>${b[b.length-1].lab}</span></div>${kind==="b"?'<div class="ax" style="margin-top:6px">Sample data for illustration, not live prices.</div>':""}</div>`;
+}
+function pieChart(sum){
+  const vals=T.map(t=>Math.max(0,sum(t))),total=vals.reduce((a,b)=>a+b,0);
+  const R2=70,CX=90,CY=90;let a0=-90;
+  const slices=T.map((t,i)=>{
+    const frac=total?vals[i]/total:0,a1=a0+frac*360,large=(a1-a0)>180?1:0;
+    const x0=CX+R2*Math.cos(a0*Math.PI/180),y0=CY+R2*Math.sin(a0*Math.PI/180);
+    const x1=CX+R2*Math.cos(a1*Math.PI/180),y1=CY+R2*Math.sin(a1*Math.PI/180);
+    const path=total?`M${CX} ${CY} L${x0.toFixed(2)} ${y0.toFixed(2)} A${R2} ${R2} 0 ${large} 1 ${x1.toFixed(2)} ${y1.toFixed(2)} Z`:"";
+    a0=a1;return{t,path,frac};
+  });
+  const legend=slices.map(s=>`<div style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:10px;height:10px;border-radius:3px;background:${COL[s.t]};display:inline-block"></span>${cap(s.t)} · ${(s.frac*100).toFixed(0)}%</div>`).join("");
+  return `<div class="card"><h2>5-Pillar Breakdown</h2><div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center">
+  <svg viewBox="0 0 180 180" width="160" height="160" role="img" aria-label="5-pillar breakdown pie chart">${total?slices.map(s=>`<path d="${s.path}" fill="${COL[s.t]}"/>`).join(""):`<circle cx="90" cy="90" r="70" fill="var(--line)"/>`}</svg>
+  <div style="display:flex;flex-direction:column;gap:6px">${legend}</div></div></div>`;
+}
+function dashboardHTML(){
+  const months=monthsList();
+  const filtered=DM==="all"?S.tx:S.tx.filter(t=>t.date.slice(0,7)===DM);
+  const sum=t=>filtered.filter(x=>x.type===t).reduce((s,x)=>s+x.amt,0),inc=sum("income");
+  const sel=`<div class="card"><div class="ch"><h2 style="margin:0">Overview</h2><div><label for="dm" style="display:inline;margin-right:6px">Month</label><select id="dm" style="width:auto;display:inline-block"><option value="all"${DM==="all"?" selected":""}>All months</option>${months.map(m=>`<option value="${m.ym}"${DM===m.ym?" selected":""}>${m.label}</option>`).join("")}</select></div></div></div>`;
+  const pil=`<div class="pil">${T.map(t=>`<div class="p" style="--c:${COL[t]}"><small>${cap(t)}</small><b>${fm(sum(t))}</b><small>${t==="income"?(DM==="all"?"All months":monthLabel(DM)):(inc?Math.round(sum(t)/inc*100):0)+"% of income"}</small></div>`).join("")}</div>`;
+  return sel+pil+pieChart(sum)+chart("dg","Growth Map","g");
+}
+function growthHTML(){
+  const sum=t=>S.tx.filter(x=>x.type===t).reduce((s,x)=>s+x.amt,0),inc=sum("income");
+  const pil=`<div class="pil">${T.map(t=>`<div class="p" style="--c:${COL[t]}"><small>${cap(t)}</small><b>${fm(sum(t))}</b><small>${t==="income"?"All time":(inc?Math.round(sum(t)/inc*100):0)+"% of income"}</small></div>`).join("")}</div>`;
+  return pil+chart("gg","Growth Map","g");
+}
+
+/* ---- Transaction history ---- */
+function txHistory(){
+  const months=monthsList();
+  $("tm").innerHTML=`<option value="all"${TM==="all"?" selected":""}>All months</option>`+months.map(m=>`<option value="${m.ym}"${TM===m.ym?" selected":""}>${m.label}</option>`).join("");
+  const rows=(TM==="all"?S.tx:S.tx.filter(t=>t.date.slice(0,7)===TM)).slice().sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
+  const cr=rows.filter(t=>t.type==="income").reduce((s,t)=>s+t.amt,0),db=rows.filter(t=>t.type!=="income").reduce((s,t)=>s+t.amt,0);
+  $("st").innerHTML=`<div class="sm"><span>Entries: <b>${rows.length}</b></span><span>Income: <b>${fm(cr)}</b></span><span>Out: <b>${fm(db)}</b></span></div>
+  <div class="tw"><table><thead><tr><th>Date</th><th>Description</th><th>Type</th><th class="n">Amount</th><th></th></tr></thead><tbody>${rows.length?rows.map(t=>`<tr><td>${t.date}</td><td>${esc(t.desc||cap(t.type))}</td><td>${cap(t.type)}</td><td class="n ${t.type==="income"?"up":"dn"}">${t.type==="income"?"+":"−"}${fm(t.amt)}</td><td><button class="x" data-del="${t.id}" aria-label="Delete transaction">×</button></td></tr>`).join(""):'<tr><td colspan="5" style="text-align:center;color:var(--mute)">No transactions in this period.</td></tr>'}</tbody></table></div>`;
+}
+$("tt").innerHTML=T.map(t=>`<option value="${t}">${cap(t)}</option>`).join("");$("td").value=ago(0);
+$("tf").onsubmit=e=>{e.preventDefault();const a=parseFloat($("ta").value);if(!(a>0))return;
+  S.tx.push({id:uid(),date:$("td").value,type:$("tt").value,amt:a,desc:$("tn").value.trim()});save();$("ta").value="";$("tn").value="";draw()};
+
+/* ---- Goals ---- */
+function goalsHTML(){
+  const rows=S.goals.map(g=>`<tr><td>${esc(g.name)}</td><td><input type="number" min="0" step="0.01" value="${g.cur}" data-gc="${g.id}" aria-label="Current amount for ${esc(g.name)}"></td><td>${fm(g.tar)}</td><td><div class="pb"><i style="width:${Math.min(100,g.cur/g.tar*100)}%"></i></div></td><td><button class="x" data-gd="${g.id}" aria-label="Delete goal">×</button></td></tr>`).join("");
+  const add=adding?`<tr><td><input id="gn" placeholder="Goal name" maxlength="40"></td><td><input id="gcur" type="number" min="0" step="0.01" placeholder="0"></td><td><input id="gt" type="number" min="1" step="0.01" placeholder="Target"></td><td colspan="2"><button class="btn" id="gs" style="padding:6px 12px">Save</button> <button class="ghost" id="gc" style="padding:6px 12px">Cancel</button><div class="err" id="ge" role="alert"></div></td></tr>`:"";
+  return `<div class="card"><div class="ch" style="margin-bottom:10px"><h2 style="margin:0">Goals</h2>${adding?"":'<button class="btn" id="ga">Add goal</button>'}</div><div class="tw"><table><thead><tr><th>Goal Name</th><th>Current</th><th>Target</th><th>Progress</th><th></th></tr></thead><tbody>${rows}${add}${!rows&&!adding?'<tr><td colspan="5" style="text-align:center;color:var(--mute)">No goals yet. Select Add goal to start.</td></tr>':""}</tbody></table></div></div>`;
+}
+
+/* ---- Settings ---- */
+function setTh(){const cur=S.theme||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");document.querySelectorAll("[data-th]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.th===cur))}
+$("pf").onsubmit=e=>{e.preventDefault();S.nick=$("nn").value.trim();save();$("pok").textContent="Profile saved";setTimeout(()=>$("pok").textContent="",2000);draw()};
+$("cpf").onsubmit=async e=>{
+  e.preventDefault();$("cpe").textContent="";
+  const cur=$("cp1").value,n1=$("cp2").value,n2=$("cp3").value;
+  if(!/^\d{4,6}$/.test(n1)){$("cpe").textContent="New PIN must be 4 to 6 digits.";return}
+  if(n1!==n2){$("cpe").textContent="New PINs don't match.";return}
+  if(S.pin){const ch=await hp(cur);if(ch!==S.pin){$("cpe").textContent="Current PIN is incorrect.";return}}
+  S.pin=await hp(n1);save();$("cp1").value="";$("cp2").value="";$("cp3").value="";
+  $("cpok").textContent="PIN updated";setTimeout(()=>$("cpok").textContent="",2000);
+};
+function renderReminderBanner(){$("remBanner").classList.toggle("hide",!S.reminderOn)}
+$("rz").onclick=()=>{const b=$("rz");
+  if(!b.dataset.arm){b.dataset.arm="1";b.textContent="Tap again to delete everything";setTimeout(()=>{b.dataset.arm="";b.textContent="Reset data to zero"},4000);return}
+  S.tx=[];S.goals=[];adding=false;save();b.dataset.arm="";b.textContent="Reset data to zero";draw()};
+/* ---- Render + events ---- */
+function draw(){
+  const hi=`<div class="ch" style="margin-bottom:12px"><h2 style="font-size:22px;margin:0">Hello, ${esc(S.nick||"there")}</h2><button class="ghost" id="guideBtn" type="button">📘 Tracker Guide</button></div>`;
+  $("dash").innerHTML=hi+dashboardHTML();$("grow").innerHTML=growthHTML();$("goals").innerHTML=goalsHTML();txHistory();renderReminderBanner();
+}
+document.addEventListener("click",e=>{
+  const t=e.target;let b;
+  if(b=t.closest("[data-r]")){R[b.dataset.c]=b.dataset.r;draw();return}
+  if(b=t.closest("[data-del]")){S.tx=S.tx.filter(x=>String(x.id)!==b.dataset.del);save();draw();return}
+  if(b=t.closest("[data-gd]")){S.goals=S.goals.filter(x=>String(x.id)!==b.dataset.gd);save();draw();return}
+  if(b=t.closest("[data-th]")){S.theme=b.dataset.th;theme(S.theme);save();setTh();return}
+  if(t.id==="guideBtn"||t.id==="stGuide"){$("guide").classList.remove("hide");return}
+  if(t.id==="gClose"||t.id==="guide"){$("guide").classList.add("hide");return}
+  if(t.id==="ga"){adding=true;draw();$("gn").focus()}
+  if(t.id==="gc"){adding=false;draw()}
+  if(t.id==="gs"){const n=$("gn").value.trim(),tar=parseFloat($("gt").value),c=parseFloat($("gcur").value)||0;
+    if(!n||!(tar>0)){$("ge").textContent="Enter a goal name and a target amount.";return}
+    S.goals.push({id:uid(),name:n,cur:c,tar:tar});adding=false;save();draw()}
+});
+document.addEventListener("change",e=>{
+  const id=e.target.dataset&&e.target.dataset.gc;
+  if(id){const g=S.goals.find(x=>String(x.id)===id);if(g){g.cur=Math.max(0,parseFloat(e.target.value)||0);save();draw()}return}
+  if(e.target.id==="dm"){DM=e.target.value;draw();return}
+  if(e.target.id==="tm"){TM=e.target.value;txHistory();return}
+  if(e.target.id==="curSel"){S.currency=e.target.value;save();draw();return}
+  if(e.target.id==="remOn"){S.reminderOn=e.target.checked;save();renderReminderBanner();return}
+});
+lockUI();
+</script>
+</body>
+</html>
